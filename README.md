@@ -6,19 +6,19 @@ Este repositorio contiene una colección de ejemplos prácticos para la placa de
 
 - **Múltiples Ejemplos**: Varios programas autocontenidos en un solo proyecto.
 - **Gestión con Entornos**: Utiliza los entornos de PlatformIO (`[env]`) para facilitar el cambio entre diferentes programas sin necesidad de modificar el código o la estructura de carpetas.
-- **Organización Limpia**: Cada ejemplo reside en su propio directorio dentro de la carpeta `examples/`.
+- **Organización Limpia**: Cada ejemplo reside con su propio nombre dentro de la carpeta `src/`.
 
 ## Ejemplos Disponibles
 
 ### 1. Conexión HTTP con una API (WeatherAPIExample)
 
-- **Ubicación**: `examples/WeatherAPIExample`
+- **Ubicación**: `src/weather_api_example.cpp`
 - **Descripción**: Este programa se conecta a una red WiFi y realiza una consulta a la API de OpenWeatherMap para obtener datos meteorológicos de una ubicación específica. Luego, muestra la información (ciudad, temperatura, humedad, etc.) en el monitor serie.
 - **Librerías**: `ArduinoJson`, `HTTPClient`.
 
 ### 2. Cliente MQTT (MqttClient)
 
-- **Ubicación**: `examples/MqttClient`
+- **Ubicación**: `src/mqtt_client.cpp`
 - **Descripción**: Este ejemplo conecta el ESP32 a un broker MQTT. Se suscribe a un topic para recibir mensajes y publica una temperatura simulada en otro topic a intervalos regulares. Es ideal para probar la conectividad y la comunicación MQTT.
 - **Librerías**: `PubSubClient`.
 
