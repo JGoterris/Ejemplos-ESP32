@@ -1,6 +1,10 @@
-# Repositorio de Ejemplos para ESP32-S3 N16R8 con PlatformIO
+# Repositorio de Ejemplos para ESP32 con PlatformIO
 
-Este repositorio contiene una colección de ejemplos prácticos para la placa de desarrollo ESP32-S3, gestionados a través de un único proyecto de PlatformIO.
+Este repositorio contiene una colección de ejemplos prácticos para la placa de desarrollo ESP32, gestionados a través de un único proyecto de PlatformIO.
+
+## IMPORTANTE
+
+El proyecto está configurado para usarse en un ESP32-S3 N16R8. Si dispones de cualquier otra placa esp32, cambia la configuración de platformio.ini a la correspondiente a tu placa.
 
 ## Características
 
