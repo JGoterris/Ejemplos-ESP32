@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "../../../IoT/Pruebas"
+		},
+		{
+			"name": "Pruebas",
+			"path": "../Pruebas"
+		},
+		{
+			"name": "Pruebas ESP32-S3",
+			"path": "."
+		}
+	],
+	"settings": {}
+}
