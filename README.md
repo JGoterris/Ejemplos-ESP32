@@ -1,4 +1,4 @@
-# Repositorio de Ejemplos para ESP32-S3 con PlatformIO
+# Repositorio de Ejemplos para ESP32-S3 N16R8 con PlatformIO
 
 Este repositorio contiene una colección de ejemplos prácticos para la placa de desarrollo ESP32-S3, gestionados a través de un único proyecto de PlatformIO.
 
@@ -38,7 +38,7 @@ Para que los ejemplos funcionen, necesitas proporcionar tus credenciales de WiFi
 #define WIFI_PASSWORD "TU_CONTRASEÑA_DE_WIFI"
 
 // -- Clave de API para OpenWeatherMap --
-// (Necesaria para el ejemplo WeatherStation)
+// (Necesaria para el ejemplo WeatherAPIExample)
 #define OPENWEATHER_API_KEY "TU_API_KEY_DE_OPENWEATHERMAP"
 
 // -- Dirección del Broker MQTT --
@@ -52,6 +52,8 @@ Para que los ejemplos funcionen, necesitas proporcionar tus credenciales de WiFi
 
 Este proyecto utiliza entornos de PlatformIO para gestionar los diferentes programas. Puedes cambiar entre ellos fácilmente desde Visual Studio Code:
 
+#### Opción 1
+
 1.  En la barra de actividades de la izquierda, haz clic en el **icono de PlatformIO** (parece la cabeza de un insecto).
 2.  Se abrirá el panel de **"PROJECT TASKS"**.
 3.  Verás los diferentes entornos disponibles bajo la sección "Default":
@@ -61,3 +63,8 @@ Este proyecto utiliza entornos de PlatformIO para gestionar los diferentes progr
     *   **Build**: Compila solo ese programa.
     *   **Upload**: Compila y sube ese programa a tu placa.
     *   **Monitor**: Abre el monitor serie para ver la salida de ese programa.
+  
+#### Opción 2
+
+1. En la barra inferior, en el apartado con el icono de la tarjeta, se pueden seleccionar los entornos.
+2. Utiliza el resto de los iconos para ejecutar las tareas.
