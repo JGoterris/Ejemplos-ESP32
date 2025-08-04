@@ -10,9 +10,9 @@ Este repositorio contiene una colección de ejemplos prácticos para la placa de
 
 ## Ejemplos Disponibles
 
-### 1. Estación Meteorológica (WeatherStation)
+### 1. Estación Meteorológica (WeatherAPIExample)
 
-- **Ubicación**: `examples/WeatherStation`
+- **Ubicación**: `examples/WeatherAPIExample`
 - **Descripción**: Este programa se conecta a una red WiFi y realiza una consulta a la API de OpenWeatherMap para obtener datos meteorológicos de una ubicación específica. Luego, muestra la información (ciudad, temperatura, humedad, etc.) en el monitor serie.
 - **Librerías**: `ArduinoJson`, `HTTPClient`.
 
@@ -33,8 +33,6 @@ Para que los ejemplos funcionen, necesitas proporcionar tus credenciales de WiFi
 3.  Copia y pega el siguiente contenido, reemplazando los valores con tus propias credenciales.
 
 ```cpp
-#pragma once
-
 // -- Credenciales WiFi --
 #define WIFI_SSID "TU_NOMBRE_DE_WIFI"
 #define WIFI_PASSWORD "TU_CONTRASEÑA_DE_WIFI"
@@ -57,7 +55,7 @@ Este proyecto utiliza entornos de PlatformIO para gestionar los diferentes progr
 1.  En la barra de actividades de la izquierda, haz clic en el **icono de PlatformIO** (parece la cabeza de un insecto).
 2.  Se abrirá el panel de **"PROJECT TASKS"**.
 3.  Verás los diferentes entornos disponibles bajo la sección "Default":
-    *   `esp32-s3-devkitc-1 (weather_station)`
+    *   `esp32-s3-devkitc-1 (weather_api_example)`
     *   `esp32-s3-devkitc-1 (mqtt_client)`
 4.  Para trabajar con un programa específico, simplemente **expande su entorno** y utiliza sus tareas:
     *   **Build**: Compila solo ese programa.
