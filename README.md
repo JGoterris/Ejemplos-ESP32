@@ -70,5 +70,5 @@ Este proyecto utiliza entornos de PlatformIO para gestionar los diferentes progr
   
 #### Opción 2
 
-1. En la barra inferior, en el apartado con el icono de la tarjeta, se pueden seleccionar los entornos.
+1. En la barra inferior, en el apartado con el icono de la carpeta, se pueden seleccionar los entornos.
 2. Utiliza el resto de los iconos para ejecutar las tareas.
