@@ -10,7 +10,7 @@ Este repositorio contiene una colección de ejemplos prácticos para la placa de
 
 ## Ejemplos Disponibles
 
-### 1. Estación Meteorológica (WeatherAPIExample)
+### 1. Conexión HTTP con una API (WeatherAPIExample)
 
 - **Ubicación**: `examples/WeatherAPIExample`
 - **Descripción**: Este programa se conecta a una red WiFi y realiza una consulta a la API de OpenWeatherMap para obtener datos meteorológicos de una ubicación específica. Luego, muestra la información (ciudad, temperatura, humedad, etc.) en el monitor serie.
