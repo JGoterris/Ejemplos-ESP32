@@ -1,111 +1,102 @@
+/*
+----------------- JGoterris -----------------
+
+Este programa realiza una consulta HTTP al servicio de OpenWeatherMap desde un ESP32
+para obtener y mostrar información meteorológica actual de una ubicación específica.
+
+Características:
+- Se conecta a una red WiFi definida en el archivo "secrets.h".
+- Realiza una petición HTTP GET a la API de OpenWeatherMap cada 20 segundos.
+- Parsea la respuesta JSON usando ArduinoJson.
+- Extrae y muestra por consola:
+  - Nombre de la ciudad.
+  - Temperatura en grados Celsius.
+  - Descripción meteorológica.
+  - Porcentaje de humedad.
+  - Presión atmosférica.
+
+Requiere:
+- Librería ArduinoJson
+- Librería HTTPClient
+- Una clave válida de API de OpenWeatherMap
+*/
+
 #include <Arduino.h>
 #include <WiFi.h>
-#include <PubSubClient.h>
+#include <HTTPClient.h>
+#include <ArduinoJson.h>
 #include "secrets.h"
 
-WiFiClient espClient;
-PubSubClient client(espClient);
+const String OPENWEATHER_API = "https://api.openweathermap.org/data/2.5/weather?lat=39.944167&lon=-0.103611&appid=" + String(OPENWEATHER_API_KEY);
 
 void setup_wifi() {
-  Serial.print("Conectando...");
+  Serial.print(F("[WiFi] Conectando a "));
+  Serial.println(WIFI_SSID);
+
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-  while(WiFi.status() != WL_CONNECTED) {
+  while (WiFi.status() != WL_CONNECTED) {
     Serial.print(".");
     delay(1000);
   }
-  Serial.println();
-  Serial.println("Conectado con éxito");
-  Serial.print("IP: ");
+
+  Serial.println(F("\n[WiFi] Conectado con éxito"));
+  Serial.print(F("[WiFi] IP asignada: "));
   Serial.println(WiFi.localIP());
 }
 
-void callback(char* topic, byte* message, unsigned int length) {
-  Serial.println("====================================");
-  Serial.print("MENSAJE RECIBIDO en topic: ");
-  Serial.println(topic);
-  Serial.print("Contenido: ");
-  
-  String messageTemp;
-  for (int i = 0; i < length; i++) {
-    Serial.print((char)message[i]);
-    messageTemp += (char)message[i];
-  }
-  Serial.println();
-  Serial.print("Mensaje completo: ");
-  Serial.println(messageTemp);
-  Serial.println("====================================");
-}
-
-void reconnect() {
-  while (!client.connected()) {
-    Serial.print("Intentando conectar al broker MQTT...");
+void fetchWeather(){
+    HTTPClient http;
+    http.begin(OPENWEATHER_API);
     
-    // Genera un ID único usando MAC
-    String clientId = "ESP32Client-";
-    clientId += String(random(0xffff), HEX);
-    
-    if (client.connect(clientId.c_str())) {
-      Serial.println("\nConectado al broker MQTT!");
-      
-      if(client.subscribe("home/messages")) {
-        Serial.println("Suscrito a home/messages");
-      } else {
-        Serial.println("Error al suscribirse a home/messages");
-      }
-      
+    int httpCode = http.GET();
+    if(httpCode <= 0){
+        Serial.print(F("[HTTP] Error en la petición: "));
+        Serial.println(http.errorToString(httpCode));
     } else {
-      Serial.print("falló, rc=");
-      Serial.print(client.state());
-      Serial.println(" intentando de nuevo en 5 segundos");
-      delay(5000);
+        Serial.printf("[HTTP] Código de respuesta: %d\n", httpCode);
+        if(httpCode == HTTP_CODE_OK){
+            String payload = http.getString();
+            
+            // Parsear JSON
+            // (parseamos porque la cadena json de respuesta es demasiado larga)
+            JsonDocument doc;
+            deserializeJson(doc, payload);
+            
+            // Extraer datos importantes
+            String ciudad = doc["name"];
+            float temperatura = doc["main"]["temp"];
+            float temp_celsius = temperatura - 273.15; // Convertir de Kelvin a Celsius
+            String descripcion = doc["weather"][0]["description"];
+            int humedad = doc["main"]["humidity"];
+            float presion = doc["main"]["pressure"];
+            
+            // Mostrar datos parseados
+            Serial.println(F("\n======= DATOS METEOROLÓGICOS ======="));
+            Serial.println("📍 Ciudad      : " + ciudad);
+            Serial.print("🌡️  Temperatura : ");
+            Serial.print(temp_celsius, 1);
+            Serial.println(" °C");
+            Serial.println("📝 Descripción : " + descripcion);
+            Serial.print("💧 Humedad     : ");
+            Serial.print(humedad);
+            Serial.println(" %");
+            Serial.print("📈 Presión     : ");
+            Serial.print(presion);
+            Serial.println(" hPa");
+            Serial.println(F("====================================\n"));
+        }
     }
-  }
+    http.end();
 }
 
-void setup() {
-  Serial.begin(115200);
-  Serial.println("Iniciando ESP32 MQTT Client...");
+void setup(){
+    Serial.begin(115200);
 
-  setup_wifi();
-
-  client.setServer(MQTT_SERVER, 1883);
-  client.setCallback(callback);
-  
-  // Asegurar conexión inicial
-  reconnect();
+    setup_wifi();
 }
 
-void loop() {
-  if (!client.connected()) {
-    Serial.println("Conexión MQTT perdida, reconectando...");
-    reconnect();
-  }
-  
-  // CRÍTICO: Mantener la conexión MQTT activa
-  client.loop();
+void loop(){
+    fetchWeather();
 
-  // Publicar temperatura cada 20 segundos
-  // (no se hace con delay porque no podemos bloquear o no recibiremos mensajes)
-  static unsigned long lastMsg = 0;
-  unsigned long now = millis();
-  
-  if (now - lastMsg > 20000) {
-    lastMsg = now;
-    
-    // Generar temperatura aleatoria entre 20.0 y 30.0
-    float temp = random(200, 300) / 10.0;
-    
-    // Convertir a String y publicar
-    String mensaje = String(temp, 1); // 1 decimal
-    
-    if(client.publish("home/room1/temperature", mensaje.c_str())) {
-      Serial.print("✓ Temperatura enviada: ");
-      Serial.println(mensaje);
-    } else {
-      Serial.println("✗ Error enviando temperatura");
-    }
-  }
-  
-  // Pequeño delay para no saturar el loop
-  delay(100);
+    delay(20000);
 }
